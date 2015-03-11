@@ -6,8 +6,7 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
   def merge
-    article_1 = Article.find_by_id(params[:article_1])
-    article_2 = Article.find_by_id(params[:merge_with])
+    Article.merge(params[:article_1], params[:merge_with])
     redirect_to root_path
   end
 

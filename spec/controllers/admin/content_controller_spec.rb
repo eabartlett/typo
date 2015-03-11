@@ -671,4 +671,21 @@ describe Admin::ContentController do
 
     end
   end
+
+  describe 'merging two articles' do
+    before do
+      Factory(:blog)
+      @user = Factory(:user, :profile => Factory(:profile_admin, :label => Profile::ADMIN))
+      request.session = { :user => @user.id }
+    end
+    it 'should add content from article 1 to article 2' do
+      article_1 = Factory(:article)
+      article_2 = Factory(:article)
+      # article_1.stub(:permalink_url).and_return("scooper")
+      # article_2.stub(:permalink_url).and_return("pooper")
+      Article.should_receive(:merge).with(article_1.id, article_2.id)
+      put :merge, {:article_1 => article_1.id, :merge_with => article_2.id}
+      response.should redirect_to root_path
+    end
+  end
 end
