@@ -5,6 +5,11 @@ class Admin::ContentController < Admin::BaseController
   layout "administration", :except => [:show, :autosave]
 
   cache_sweeper :blog_sweeper
+  def merge
+    article_1 = Article.find_by_id(params[:article_1])
+    article_2 = Article.find_by_id(params[:merge_with])
+    redirect_to root_path
+  end
 
   def auto_complete_for_article_keywords
     @items = Tag.find_with_char params[:article][:keywords].strip

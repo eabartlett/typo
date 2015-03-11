@@ -12,5 +12,5 @@ World(WithinHelpers)
 
 Given /^I am reading an article$/ do
   article =Article.find(:first)
-  visit article.title_url
+  visit "/admin/content/edit/#{article.id}"
 end
