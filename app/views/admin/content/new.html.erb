@@ -9,7 +9,7 @@
   <%= form_tag "/admin/content/merge", :method => :post do-%>
       <label name="merge_with">Article ID</label>
       <%=hidden_field_tag("article_1", @article.id)%>
-      <input type="text" id="merge_with" name="merge_with" />
+      <input type="text" name="merge_with" />
       <input type="submit" value="Merge">
   <% end-%>
   <% end-%>
