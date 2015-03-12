@@ -25,9 +25,6 @@ class Article < Content
 
   has_many :comments,   :dependent => :destroy, :order => "created_at ASC" do
 
-    def merge(id)
-
-    end
     # Get only ham or presumed_ham comments
     def ham
       find :all, :conditions => {:state => ["presumed_ham", "ham"]}
@@ -73,7 +70,17 @@ class Article < Content
       self.settings = {}
     end
   end
-
+  def self.merge(id_1, id_2)
+    if id_1 == id_2
+      return
+    end
+    article_1 = Article.find_by_id(id_1)
+    article_2 = Article.find_by_id(id_2)
+    article_1.body += article_2.body
+    article_1.extended += article_2.extended
+    article_1.comments += article_2.comments
+    article_1.save!
+  end
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?
@@ -397,6 +404,14 @@ class Article < Content
     parts = value.split(/\n?<!--more-->\n?/, 2)
     self.body = parts[0]
     self.extended = parts[1] || ''
+  end
+
+  def get_body
+    self.body
+  end
+
+  def get_extended
+    self.extended
   end
 
   def link_to_author?

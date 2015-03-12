@@ -630,5 +630,22 @@ describe Article do
     end
 
   end
+
+  describe "#merge" do
+    it "takes an article and merges it's content" do
+      article_1 = Factory(:article)
+      article_2 = Factory(:article)
+      article_1.body_and_extended = 'Hello'
+      article_2.body_and_extended = 'Hello'
+      article_1.save!
+      article_2.save!
+      initial_comments = article_1.comments
+      Article.merge(article_1.id, article_2.id)
+      article_1 = Article.find_by_id(article_1.id)
+      article_1.body.should == 'HelloHello'
+      article_1.extended.should == ''
+      article_1.comments.should == initial_comments + article_2.comments
+    end
+  end
 end
 
