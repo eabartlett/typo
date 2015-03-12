@@ -80,6 +80,7 @@ class Article < Content
     article_1.extended += article_2.extended
     article_1.comments += article_2.comments
     article_1.save!
+    article_2.destroy
   end
   def set_permalink
     return if self.state == 'draft'
