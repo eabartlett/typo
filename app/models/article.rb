@@ -77,9 +77,11 @@ class Article < Content
     article_1 = Article.find_by_id(id_1)
     article_2 = Article.find_by_id(id_2)
     article_1.body += article_2.body
-    article_1.extended += article_2.extended
-    # article_2.comments.each {|comment| comment.article_id = article_1.id; comment.save!}
-    article_1.comments << article_2.comments
+    article_1.extended += article_2.extended if article_1.extended and article_2.extended
+    article_2.comments.each do |comment|
+      article_1.comments.create!(:user_id => comment.user_id, :body => comment.body, :author => comment.author)
+    end
+    # article_1.comments << article_2.comments
     article_1.save!
     article_2.destroy
   end
