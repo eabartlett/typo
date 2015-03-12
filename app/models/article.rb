@@ -78,7 +78,8 @@ class Article < Content
     article_2 = Article.find_by_id(id_2)
     article_1.body += article_2.body
     article_1.extended += article_2.extended
-    article_2.comments.each {|comment| comment.article_id = article_1.id; comment.save!}
+    # article_2.comments.each {|comment| comment.article_id = article_1.id; comment.save!}
+    article_1.comments << article_2.comments
     article_1.save!
     article_2.destroy
   end
