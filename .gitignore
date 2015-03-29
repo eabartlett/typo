@@ -24,3 +24,6 @@ public/cache/*
 .rbenv-version
 bin/
 .bundle/
+.idea/
+db/db_development
+db/db_test
